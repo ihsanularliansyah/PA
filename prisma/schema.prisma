@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Booking {
+  id           String   @id @default(uuid())
+  name         String
+  email        String
+  phone_number String
+  event_name   String
+  event_date   DateTime
+  style        String
+  detail       String?
+  status       String   @default("proceed")
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  Review Review[]
+}
+
+model Review {
+  id         String   @id @default(uuid())
+  comment    String
+  is_visited Boolean  @default(false)
+  published  Boolean  @default(false)
+  rating     Int      @default(0)
+  created_at DateTime @default(now())
+
+  bookingId String  @unique
+  booking   Booking @relation(fields: [bookingId], references: [id])
+}
+
+model Token {
+  id           Int      @id @default(autoincrement())
+  phone_number String   @unique
+  otp          String
+  is_valid     Boolean
+  createdAt    DateTime @default(now())
+}
