@@ -11,7 +11,7 @@ export async function getServerSideProps() {
   const reviews = await prisma.review.findMany({
     select: {
       comment: true,
-      published:true,
+      publish_status: true,
       booking: {
         select: {
           event_name: true,
@@ -33,7 +33,7 @@ export async function getServerSideProps() {
   };
 }
 export default function Home({ reviews }) {
-  console.log(reviews)
+  // console.log(reviews);
   return (
     <div>
       {/* Navbar */}
@@ -72,7 +72,10 @@ export default function Home({ reviews }) {
       <section
         id="hero"
         className="bg-gray-900 text-white h-fit md:h-screen grid pt-16 md:grid-cols-2 "
-        style={{ backgroundImage: "url(/untitled-2074.JPG)",backgroundSize:"cover" }}
+        style={{
+          backgroundImage: 'url(/untitled-2074.JPG)',
+          backgroundSize: 'cover',
+        }}
       >
         <div className="h-full">
           <div className="text-6xl md:text-9xl font-semibold py-14 px-8 space-y-6">
@@ -83,14 +86,12 @@ export default function Home({ reviews }) {
           </div>
         </div>
         <div className=" h-full">
-        
           {/* <Image
             src="/untitled-2074.JPG"
             alt="shuld be an image"
             width={404}
             height={404}
           /> */}
-
         </div>
       </section>
       <section
@@ -111,13 +112,29 @@ export default function Home({ reviews }) {
         <div className="col-span-5 h-full bg-primar flex flex-col gap-8 justify-between p-8">
           <div className="space-y-6">
             <p>
-            Inception Studio adalah sebuah studio produksi kreatif yang berfokus pada pembuatan video dan poto yang berkualitas untuk keperluan wedding, prewedding, dokumetasi, promosi, pemasaran, dan hiburan. Studio ini memiliki peralatan dan teknologi canggih, termasuk kamera, perangkat lunak editing video dan poto, serta komputer grafis yang handal, yang digunakan untuk menciptakan karya-karya visual yang menakjubkan.
+              Inception Studio adalah sebuah studio produksi kreatif yang
+              berfokus pada pembuatan video dan poto yang berkualitas untuk
+              keperluan wedding, prewedding, dokumetasi, promosi, pemasaran, dan
+              hiburan. Studio ini memiliki peralatan dan teknologi canggih,
+              termasuk kamera, perangkat lunak editing video dan poto, serta
+              komputer grafis yang handal, yang digunakan untuk menciptakan
+              karya-karya visual yang menakjubkan.
             </p>
             <p>
-            Inception Studio menyediakan layanan lengkap mulai dari konseptualisasi, pengembangan skenario, produksi, hingga post-produksi untuk memastikan kualitas dan hasil akhir yang memuaskan. Studio ini juga memiliki tim yang berbakat dan terampil, termasuk sutradara, penulis skenario, animator, editor, dan teknisi suara, yang bekerja sama untuk menciptakan karya-karya berkualitas tinggi.
+              Inception Studio menyediakan layanan lengkap mulai dari
+              konseptualisasi, pengembangan skenario, produksi, hingga
+              post-produksi untuk memastikan kualitas dan hasil akhir yang
+              memuaskan. Studio ini juga memiliki tim yang berbakat dan
+              terampil, termasuk sutradara, penulis skenario, animator, editor,
+              dan teknisi suara, yang bekerja sama untuk menciptakan karya-karya
+              berkualitas tinggi.
             </p>
             <p>
-            Deskripsi dari Inception Studio adalah sebagai sebuah studio produksi kreatif yang berkualitas tinggi dan fokus pada inovasi dan kreativitas. Studio ini menyediakan layanan lengkap untuk memastikan hasil akhir yang memuaskan dan dapat memenuhi kebutuhan produksi video dan animasi.
+              Deskripsi dari Inception Studio adalah sebagai sebuah studio
+              produksi kreatif yang berkualitas tinggi dan fokus pada inovasi
+              dan kreativitas. Studio ini menyediakan layanan lengkap untuk
+              memastikan hasil akhir yang memuaskan dan dapat memenuhi kebutuhan
+              produksi video dan animasi.
             </p>
           </div>
           <div className="grid grid-cols-2">
@@ -135,33 +152,6 @@ export default function Home({ reviews }) {
       <section id="portfolio" className="py-16 bg-white">
         <div className="container mx-auto px-6">
           <h2 className="text-3xl font-bold text-center mb-12">Our Work</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Example images */}
-            <div className="w-full h-64 relative">
-              <Image
-                width={400}
-                height={180}
-                src="/path-to-your-image1.jpg"
-                alt="Portfolio Image 1"
-              />
-            </div>
-            <div className="w-full h-64 relative">
-              <Image
-                width={400}
-                height={180}
-                src="/path-to-your-image2.jpg"
-                alt="Portfolio Image 2"
-              />
-            </div>
-            <div className="w-full h-64 relative">
-              <Image
-                width={400}
-                height={180}
-                src="/path-to-your-image3.jpg"
-                alt="Portfolio Image 3"
-              />
-            </div>
-          </div>
         </div>
         <ParallaxGallery />
       </section>
@@ -179,27 +169,29 @@ export default function Home({ reviews }) {
         <div className="container mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold mb-12">What Our Clients Say</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {[...reviews,reviews].filter((item)=> item.published == true).map((review, key) => {
-              return (
-                <div
-                  key={key}
-                  className="bg-slate-100 shadow-md rounded-lg h-40 p-4 text-left"
-                >
-                  <div className="flex justify-between">
-                    <p className="text-lg font-semibold">
-                      {review.booking?.name}
-                    </p>
-                    <StarRating
-                      ratingValue={review?.rating}
-                      readOnly={true}
-                      size={'xl'}
-                    />
+            {[...reviews, reviews]
+              .filter((item) => item.publish_status == 'publish')
+              .map((review, key) => {
+                return (
+                  <div
+                    key={key}
+                    className="bg-slate-100 shadow-md rounded-lg h-40 p-4 text-left"
+                  >
+                    <div className="flex justify-between">
+                      <p className="text-lg font-semibold">
+                        {review.booking?.name}
+                      </p>
+                      <StarRating
+                        ratingValue={review?.rating}
+                        readOnly={true}
+                        size={'xl'}
+                      />
+                    </div>
+                    <hr className="my-1 mb-4  border-2 border-sky-300 " />
+                    <p>{review?.comment}</p>
                   </div>
-                  <hr className="my-1 mb-4  border-2 border-sky-300 " />
-                  <p>{review?.comment}</p>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
         </div>
       </section>

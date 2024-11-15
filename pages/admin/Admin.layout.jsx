@@ -5,6 +5,7 @@ import {
   HeadbarComponent,
   SidebarComponent,
 } from '../../components/base.components';
+import { KindeProvider } from '@kinde-oss/kinde-auth-nextjs';
 // import { UserProvider } from '../../../context/user.context';
 
 export function AdminLayout({ children }) {
@@ -65,28 +66,30 @@ export function AdminLayout({ children }) {
 
   return (
     <>
-      {/* <UserProvider> */}
-      {/* <AccessProvider> */}
-      <div className="bg-slate-50">
-        <HeadbarComponent
-          panel="admin"
-          onMenuClick={() => setSidebar(!sidebar)}
-          onHasAccessChange={(access) => setHasAccess(access)}
-        ></HeadbarComponent>
-        <div className="">
-          <SidebarComponent
-            basePath="/admin"
-            items={menu}
-            minimize={sidebar}
-            onChange={() => setSidebar(false)}
-            hasAccess={hasAccess}
-          >
-            {children}
-          </SidebarComponent>
+      <KindeProvider>
+        {/* <UserProvider> */}
+        {/* <AccessProvider> */}
+        <div className="bg-slate-50">
+          <HeadbarComponent
+            panel="admin"
+            onMenuClick={() => setSidebar(!sidebar)}
+            onHasAccessChange={(access) => setHasAccess(access)}
+          ></HeadbarComponent>
+          <div className="">
+            <SidebarComponent
+              basePath="/admin"
+              items={menu}
+              minimize={sidebar}
+              onChange={() => setSidebar(false)}
+              hasAccess={hasAccess}
+            >
+              {children}
+            </SidebarComponent>
+          </div>
         </div>
-      </div>
-      {/* </AccessProvider> */}
-      {/* </UserProvider> */}
+        {/* </AccessProvider> */}
+        {/* </UserProvider> */}
+      </KindeProvider>
     </>
   );
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
-import Image from 'next/image';
+// import Image from 'next/image';
 import { useRouter } from 'next/router';
 // import Autoplay from 'embla-carousel-autoplay';
 // import { PrevIcon, NextIcon } from './Icons'; // Assume you have icon components
@@ -40,7 +40,7 @@ const ServiceSliderComponent = () => {
       slug: 'wedding-photography',
       name: 'Wedding Photography',
       desc: ' Capture the beauty of your special day with our professional wedding photography services.',
-      icon: '/parallax/colorist-5374.JPG',
+      icon: '/parallax/untitled-3357.JPG',
     },
     {
       slug: 'corporate-videos',
@@ -102,15 +102,26 @@ const ServiceSliderComponent = () => {
                 )
               }
             >
-              <div className="bg-white rounded-lg shadow p-6 text-center">
-                <Image
+              <div
+                className="bg-white rounded-lg shadow p-6 text-center h-80 cursor-pointer hover:scale-95"
+                style={{
+                  backgroundImage: `url(${service.icon})`,
+                  backgroundSize: 'cover',
+                }}
+              >
+                {/* <Image
                   src={service?.icon}
                   alt={service.name}
                   className="w-16 h-16 mx-auto mb-4"
                   width={1900}
                   height={600}
-                />
-                <h3 className="text-xl font-semibold mb-2">{service.name}</h3>
+                /> */}
+                <h3
+                  style={{ backgroundColor: 'rgba(255, 255, 255, 0.77)' }}
+                  className="p-4 rounded-lg text-xl font-semibold mb-2"
+                >
+                  {service.name}
+                </h3>
                 <p className="text-gray-600 max">{}</p>
               </div>
             </div>

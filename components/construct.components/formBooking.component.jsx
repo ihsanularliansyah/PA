@@ -6,10 +6,19 @@ function FormBookingComponent() {
   const route = useRouter();
   const { style } = route.query;
 
-  const styleOptions = [
+  const categoryOptions = [
     { label: 'Wedding Photography', value: 'wedding-photography' },
     { label: 'Corporate Videos', value: 'corporate-videos' },
     { label: 'Event Coverage', value: 'event-coverage' },
+  ];
+  const styleOptions = [
+    { label: 'moody', value: 'moody' },
+    { label: 'tradisional', label: 'tradisional' },
+    { lebel: 'clean', value: 'clean' },
+    { label: 'modern', value: 'modern' },
+    { label: 'vintage', value: 'vintage' },
+    { label: 'pastel', value: 'pastel' },
+    { label: 'colourful', value: 'colourful' },
   ];
   return (
     <div className="min-h-[500px]">
@@ -30,11 +39,23 @@ function FormBookingComponent() {
               },
             },
           },
+          // {
+          //   construction: {
+          //     name: 'event_name',
+          //     label: 'Nama Event',
+          //     placeholder: 'Masukkan event...',
+          //     validations: {
+          //       required: true,
+          //     },
+          //   },
+          // },
           {
+            type: 'select',
             construction: {
               name: 'event_name',
-              label: 'Nama Event',
-              placeholder: 'Masukkan event...',
+              label: 'Event',
+              placeholder: 'Pilih Event...',
+              options: categoryOptions,
               validations: {
                 required: true,
               },

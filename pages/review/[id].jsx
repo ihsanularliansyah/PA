@@ -14,7 +14,7 @@ export async function getServerSideProps(context) {
     select: {
       id: true,
       comment: true,
-      is_visited: true,
+      link_status: true,
       rating: true,
       booking: {
         select: {
@@ -51,12 +51,17 @@ const ReviewPage = ({ review }) => {
             id: review?.id,
             comment: review?.comment,
             rating: review?.rating,
+            link_status: 'inactive',
           }}
           forms={[
             {
               type: 'custom',
               custom: ({ values, setValues }) => (
-                <div className={review?.is_visited && 'pointer-events-none'}>
+                <div
+                  className={
+                    review?.link_status != 'active' && 'pointer-events-none'
+                  }
+                >
                   <StarRating
                     name="rating"
                     onRatingSelect={(e) =>
@@ -75,7 +80,11 @@ const ReviewPage = ({ review }) => {
             {
               type: 'custom',
               custom: ({ formControl }) => (
-                <div className={review?.is_visited && 'pointer-events-none'}>
+                <div
+                  className={
+                    review?.link_status != 'active' && 'pointer-events-none'
+                  }
+                >
                   <TextareaComponent
                     name="comment"
                     label="Ulasan"
@@ -95,7 +104,7 @@ const ReviewPage = ({ review }) => {
                   label="Simpan"
                   icon={faSave}
                   // loading={loading}
-                  disabled={review.is_visited}
+                  disabled={review.link_status != 'active'}
                 />
               </div>
             </>

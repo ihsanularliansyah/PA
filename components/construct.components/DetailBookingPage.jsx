@@ -23,17 +23,20 @@ export default function DetailBookingPage({ data }) {
     });
   }
   async function sendWaReviewLink(chatId) {
+    const message = `Semoga momen berharga anda yang diabadikan kami selalu dikenang dihati/n/n silahkan berikan ulasan mengenai layanan kami melalui link berikut ini: ${
+      window.location.origin
+    }/review/${data?.Review?.at(0)?.id}`;
     await post({
       url: 'http://localhost:3000/api/sendText',
       contentType: 'application/json',
       body: {
         chatId,
-        text: `Semoga momen berharga anda yang diabadikan kami selalu dikenang dihati/n/n silahkan berikan ulasan mengenai layanan kami melalui link berikut ini:${window.location.origin}/review/${data?.Review?.at(0)?.id}`,
+        text: message,
         session: 'default',
       },
     });
   }
-  console.log(data.re);
+
   return (
     <div className="flex flex-col px-8 py-4">
       <ul className="space-y-2">

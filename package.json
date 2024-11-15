@@ -7,8 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "db-reset": "dotenv -e .env.local -- npx prisma migrate reset",
     "db-push": "dotenv -e .env.local -- npx prisma db push",
-    "genarate": "dotenv -e .env.local -- npx prisma generate"
+    "db-generate": "dotenv -e .env.local -- npx prisma generate",
+    "db-studio": "dotenv -e .env.local -- npx prisma studio"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.3.0",

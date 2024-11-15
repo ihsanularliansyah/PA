@@ -17,12 +17,22 @@ import { faCommentDots } from '@fortawesome/free-solid-svg-icons';
 function DaftarBooking() {
   const [selected, setSelected] = useState(null);
   const [reviewModal, setReviewModal] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const route = useRouter();
   const { isAuthenticated, isLoading } = useKindeAuth();
-  const styleOptions = [
+  const categoryOptions = [
     { label: 'Wedding Photography', value: 'wedding-photography' },
     { label: 'Corporate Videos', value: 'corporate-videos' },
     { label: 'Event Coverage', value: 'event-coverage' },
+  ];
+  const styleOptions = [
+    { label: 'moody', value: 'moody' },
+    { label: 'tradisional', label: 'tradisional' },
+    { lebel: 'clean', value: 'clean' },
+    { label: 'modern', value: 'modern' },
+    { label: 'vintage', value: 'vintage' },
+    { label: 'pastel', value: 'pastel' },
+    { label: 'colourful', value: 'colourful' },
   ];
   const statusOptions = [
     { label: 'proceed', value: 'proceed' },
@@ -42,6 +52,7 @@ function DaftarBooking() {
         fetchControl={{
           path: 'bookings',
         }}
+        setToRefresh={refresh}
         columnControl={{
           customDefaultValue: { prefix: '62' },
           custom: [
@@ -120,10 +131,12 @@ function DaftarBooking() {
               },
             },
             {
+              type: 'select',
               construction: {
                 name: 'event_name',
-                label: 'Nama Event',
-                placeholder: 'Masukkan event...',
+                label: 'Event',
+                placeholder: 'Pilih Event...',
+                options: categoryOptions,
                 validations: {
                   required: true,
                 },
@@ -228,7 +241,7 @@ function DaftarBooking() {
               construction: {
                 name: 'status',
                 label: 'Status',
-                placeholder: 'Pilih Style...',
+                placeholder: 'Pilih Status...',
                 options: statusOptions,
                 validations: {
                   required: true,
@@ -236,10 +249,12 @@ function DaftarBooking() {
               },
             },
             {
+              type: 'select',
               construction: {
                 name: 'event_name',
-                label: 'Nama Event',
-                placeholder: 'Masukkan event...',
+                label: 'Event',
+                placeholder: 'Pilih Event...',
+                options: categoryOptions,
                 validations: {
                   required: true,
                 },
@@ -304,6 +319,7 @@ function DaftarBooking() {
                   variant="outline"
                   rounded
                   size="sm"
+                  disabled={data?.Review?.at(0)?.link_status == 'active'}
                   onClick={() => {
                     setReviewModal(true);
                     setSelected(data);
@@ -325,34 +341,42 @@ function DaftarBooking() {
         <div className="px-6 pt-4 pb-20 h-full overflow-scroll scroll_control">
           <FormSupervisionComponent
             // title="Buat Ulasan"
-            submitControl={{ path: 'review'}}
+            submitControl={{ path: 'reviews' }}
             confirmation={true}
+            onSuccess={() => {
+              setRefresh(!refresh);
+              setReviewModal(false);
+            }}
             defaultValue={{
               id: selected?.Review?.at(0)?.id,
               comment: selected?.Review?.at(0)?.comment,
-              publish: selected?.Review?.at(0)?.publish,
-              is_visited: selected?.Review?.at(0)?.is_visited,
+              publish_status: selected?.Review?.at(0)?.publish_status,
+              link_status: selected?.Review?.at(0)?.link_status,
             }}
             forms={[
               {
-                type: 'check',
+                type: 'select',
                 construction: {
-                  name: 'publish',
-                  label: '',
+                  name: 'publish_status',
+                  label: 'Tampil Di halaman Utama',
+                  placeholder: 'Pilih status..',
+
                   options: [
-                    { label: 'Tampilkan di halaman utama', value: true },
+                    { label: 'Tampilkan', value: 'publish' },
+                    { label: 'Sembunyikan', value: 'unpublish' },
                   ],
                   validations: { required: true },
                 },
               },
               {
-                type: 'radio',
+                type: 'select',
                 construction: {
-                  name: 'is_visited',
+                  name: 'link_status',
                   label: 'Status Link Ulasan',
+                  placeholder: 'Pilih status..',
                   options: [
-                    { label: 'Aktif', value: false },
-                    { label: 'Tidak Aktif', value: true },
+                    { label: 'Aktif', value: 'active' },
+                    { label: 'Tidak Aktif', value: 'inactive' },
                   ],
                   validations: { required: true },
                 },
