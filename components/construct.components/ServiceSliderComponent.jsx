@@ -92,15 +92,16 @@ const ServiceSliderComponent = () => {
             <div
               className="min-w-[100%] md:min-w-[33.3333%] px-4 flex-shrink-0"
               key={index}
-              onClick={() =>
-                router.replace(
+              onClick={async () => {
+                await router.replace(
                   {
                     query: { style: service.slug },
                   },
                   undefined,
                   { shallow: true }
-                )
-              }
+                );
+                router.push('#contact', undefined, { shallow: true });
+              }}
             >
               <div
                 className="bg-white rounded-lg shadow p-6 text-center h-80 cursor-pointer hover:scale-95"

@@ -27,7 +27,7 @@ function DaftarBooking() {
   ];
   const styleOptions = [
     { label: 'moody', value: 'moody' },
-    { label: 'tradisional', label: 'tradisional' },
+    { label: 'tradisional', value: 'tradisional' },
     { lebel: 'clean', value: 'clean' },
     { label: 'modern', value: 'modern' },
     { label: 'vintage', value: 'vintage' },

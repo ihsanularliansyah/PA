@@ -109,7 +109,10 @@ export function FormSupervisionComponent({
     <>
       {title && <h4 className="text-lg font-semibold mb-4">{title}</h4>}
 
-      <form className="grid grid-cols-12 gap-3" onSubmit={submit}>
+      <form
+        className={`grid grid-cols-12 gap-3 ${!fresh && 'hidden'}`}
+        onSubmit={submit}
+      >
         {fresh &&
           forms.map((form, key) => {
             const inputType = form.type || 'default';

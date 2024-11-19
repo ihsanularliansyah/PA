@@ -13,7 +13,7 @@ function FormBookingComponent() {
   ];
   const styleOptions = [
     { label: 'moody', value: 'moody' },
-    { label: 'tradisional', label: 'tradisional' },
+    { label: 'tradisional', value: 'tradisional' },
     { lebel: 'clean', value: 'clean' },
     { label: 'modern', value: 'modern' },
     { label: 'vintage', value: 'vintage' },
@@ -24,7 +24,7 @@ function FormBookingComponent() {
     <div className="min-h-[500px]">
       <FormSupervisionComponent
         submitControl={{ path: 'client-booking' }}
-        defaultValue={{ prefix: '62', style: style || '' }}
+        defaultValue={{ prefix: '62', event_name: style || '' }}
         onSuccess={() => route.push('/')}
         confirmation={true}
         forms={[
