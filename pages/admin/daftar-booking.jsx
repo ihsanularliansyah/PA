@@ -7,6 +7,9 @@ import {
   DateFormatComponent,
   FloatingPageComponent,
   FormSupervisionComponent,
+  InputCheckboxComponent,
+  InputComponent,
+  SelectComponent,
   TableSupervisionComponent,
 } from '../../components/base.components';
 import { AdminLayout } from './Admin.layout';
@@ -14,6 +17,10 @@ import PhoneValidateComponent from '../../components/construct.components/PhoneV
 import DetailBookingPage from '../../components/construct.components/DetailBookingPage';
 import { TextareaComponent } from '../../components/base.components/input/Textarea.component';
 import { faCommentDots } from '@fortawesome/free-solid-svg-icons';
+import {
+  dresscodeOptions,
+  propertiOPtions,
+} from '../../components/construct.components/formBooking.component';
 function DaftarBooking() {
   const [selected, setSelected] = useState(null);
   const [reviewModal, setReviewModal] = useState(false);
@@ -190,6 +197,75 @@ function DaftarBooking() {
                   required: true,
                   email: true,
                 },
+              },
+            },
+            {
+              type: 'check',
+              construction: {
+                options: [
+                  { label: 'Tema Pakaian', value: 'w_dresscode' },
+                  { label: 'Properti', value: 'w_property' },
+                  { label: 'Lokasi', value: 'w_location' },
+                ],
+                name: 'extras',
+                label: 'Informasi Tambahan (Opsional)',
+              },
+            },
+            {
+              type: 'custom',
+              custom: ({ formControl, values }) => {
+                return (
+                  <div className={`grid grid-cols-12 gap-3`}>
+                    {values
+                      .find((val) => val.name == 'extras')
+                      ?.value.includes('w_dresscode') && (
+                      <div className="col-span-12">
+                        <SelectComponent
+                          {...formControl('dresscode')}
+                          name="dresscode"
+                          label="Tema Pakaian"
+                          placeholder="Pilih Tema Pakaian..."
+                          options={dresscodeOptions}
+                          validations={{
+                            required: true,
+                          }}
+                        />
+                      </div>
+                    )}
+                    {values
+                      .find((val) => val.name == 'extras')
+                      ?.value.includes('w_location') && (
+                      <div className="col-span-12">
+                        <InputComponent
+                          {...formControl('location')}
+                          name="location"
+                          label="Lokasi"
+                          placeholder="Masukan Alamat Lengkap..."
+                          validations={{
+                            required: true,
+                          }}
+                        />
+                      </div>
+                    )}
+                    {values
+                      .find((val) => val.name == 'extras')
+                      ?.value.includes('w_property') && (
+                      <div className="col-span-12">
+                        <InputCheckboxComponent
+                          {...formControl('properies')}
+                          name="properies"
+                          label="Properti"
+                          // placeholder="Pilih Tema Pakaian..."
+                          options={propertiOPtions}
+                          vertical={'h-48'}
+                          validations={{
+                            required: true,
+                          }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
               },
             },
             {

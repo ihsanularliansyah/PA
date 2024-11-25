@@ -37,7 +37,7 @@ export function ModalComponent({
             ${styles.modal}
             ${
               show
-                ? 'top-[1rem] md:top-[15vh] opacity-1'
+                ? 'top-[1rem] md:top-[3vh] opacity-1'
                 : '-top-[110vh] opacity-0'
             }
             ${modalContainer[width || 'md']}
