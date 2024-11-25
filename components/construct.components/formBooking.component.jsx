@@ -136,6 +136,7 @@ function FormBookingComponent() {
                     ?.value.includes('w_dresscode') && (
                     <div className="col-span-12">
                       <SelectComponent
+                        {...formControl('dresscode')}
                         name="dresscode"
                         label="Tema Pakaian"
                         placeholder="Pilih Tema Pakaian..."
@@ -151,6 +152,7 @@ function FormBookingComponent() {
                     ?.value.includes('w_location') && (
                     <div className="col-span-12">
                       <InputComponent
+                        {...formControl('location')}
                         name="location"
                         label="Lokasi"
                         placeholder="Masukan Alamat Lengkap..."
@@ -165,7 +167,8 @@ function FormBookingComponent() {
                     ?.value.includes('w_property') && (
                     <div className="col-span-12">
                       <InputCheckboxComponent
-                        name="properies"
+                        {...formControl('properties')}
+                        name="properties"
                         label="Properti"
                         // placeholder="Pilih Tema Pakaian..."
                         options={propertiOPtions}

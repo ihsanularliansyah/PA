@@ -58,6 +58,9 @@ export default async function handler(req, res) {
       style,
       prefix,
       validNumber,
+      dresscode,
+      location,
+      properties,
     } = req.body;
 
     try {
@@ -93,6 +96,9 @@ export default async function handler(req, res) {
           detail,
           style,
           status: 'proceed', // Default status
+          dresscode: dresscode || null,
+          location: location || null,
+          properties: properties || null,
         },
       });
 

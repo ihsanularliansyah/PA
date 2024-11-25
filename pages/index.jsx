@@ -99,9 +99,9 @@ export default function Home({ reviews }) {
         className=" pb-20 md:pb-4 md:h-screen grid md:grid-cols-12 pt-8"
       >
         <div className="relative ml-12 col-span-4 h-full bg-secondar flex flex-col px-8 md:p-4 gap-8">
-          <b className="text-4xl md:text-6xl font-semibold">ABOUT</b>
+          <b className="text-4xl md:text-6xl font-semibold text-white md:translate-x-4">ABOUT</b>
           <Image
-            className="hidden md:block bg-primary absolute bottom-10"
+            className="hidden md:block bg-primary absolute bottom-10 -z-10"
             src="/untitled-1916.JPG"
             alt="shuld be an image"
             width={404}

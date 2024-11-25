@@ -19,6 +19,9 @@ model Booking {
   event_date   DateTime
   style        String
   detail       String?
+  dresscode       String?
+  location       String?
+  properties       String?
   status       String   @default("proceed")
   created_at   DateTime @default(now())
   updated_at   DateTime @updatedAt
