@@ -115,12 +115,22 @@ function FormBookingComponent() {
             },
           },
           {
+            construction: {
+              name: 'location',
+              label: 'lokasi',
+              placeholder: 'masukan alamat lengkap',
+              validations: {
+                required: true,
+              },
+            },
+          },
+          {
             type: 'check',
             construction: {
               options: [
                 { label: 'Tema Pakaian', value: 'w_dresscode' },
                 { label: 'Properti', value: 'w_property' },
-                { label: 'Lokasi', value: 'w_location' },
+                // { label: 'Lokasi', value: 'w_location' },
               ],
               name: 'extras',
               label: 'Informasi Tambahan (Opsional)',
@@ -147,7 +157,7 @@ function FormBookingComponent() {
                       />
                     </div>
                   )}
-                  {values
+                  {/* {values
                     .find((val) => val.name == 'extras')
                     ?.value.includes('w_location') && (
                     <div className="col-span-12">
@@ -161,7 +171,7 @@ function FormBookingComponent() {
                         }}
                       />
                     </div>
-                  )}
+                  )} */}
                   {values
                     .find((val) => val.name == 'extras')
                     ?.value.includes('w_property') && (
