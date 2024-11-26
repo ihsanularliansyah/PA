@@ -1,8 +1,9 @@
 import React from 'react';
-import { ButtonComponent } from '../base.components';
+import { ButtonComponent, InputCheckboxComponent } from '../base.components';
 import { post } from '../../helpers';
 import moment from 'moment';
 import 'moment/locale/id';
+import { propertiOPtions } from './formBooking.component';
 export default function DetailBookingPage({ data }) {
   const formatedDate = moment(data?.event_date)
     .locale('id')
@@ -39,6 +40,22 @@ export default function DetailBookingPage({ data }) {
 
   return (
     <div className="flex flex-col px-8 py-4">
+      <div className="w-full flex justify-center mb-10">
+        {data.status == 'proceed' && (
+          <ButtonComponent
+            label="Konfirmasi Booking"
+            paint="success"
+            onClick={() => sendWaConfirm(data.phone_number)}
+          />
+        )}
+        {data.status == 'done' && (
+          <ButtonComponent
+            label="Kirim Link Ulasan"
+            paint="primary"
+            onClick={() => sendWaReviewLink(data.phone_number)}
+          />
+        )}
+      </div>
       <ul className="space-y-2">
         <li className="grid grid-cols-12">
           <b className="col-span-3">Atas Nama</b>
@@ -83,6 +100,17 @@ export default function DetailBookingPage({ data }) {
             </span>
           </div>
         </li>
+        <li className="grid grid-cols-12">
+          <b className="col-span-3">Lokasi</b>
+          <div className="col-span-9">: {data?.location || '-'}</div>
+        </li>
+
+        <li className="grid grid-cols-12">
+          <b className="col-span-3">Tema Pakaian</b>
+          <div className="col-span-9">
+            : {data?.dresscode.replace(/\-/g, ' ') || '-'}
+          </div>
+        </li>
         <li>
           <b className="block w-full pb-2">Detail : </b>
           <div
@@ -92,23 +120,18 @@ export default function DetailBookingPage({ data }) {
             className="max-h-[30vh] overflow-y-scroll scroll_control px-3 py-4 bg-slate-100 rounded-lg"
           ></div>
         </li>
+        <li>
+          <b className="block w-full pb-2">Properti</b>
+          <div style={{ pointerEvents: 'none' }}>
+            <InputCheckboxComponent
+              // placeholder="Pilih Tema Pakaian..."
+              options={propertiOPtions}
+              vertical={'h-96'}
+              value={data?.properties.split(',')}
+            />
+          </div>
+        </li>
       </ul>
-      <div className="w-full flex justify-center mt-10">
-        {data.status == 'proceed' && (
-          <ButtonComponent
-            label="Konfirmasi Booking"
-            paint="success"
-            onClick={() => sendWaConfirm(data.phone_number)}
-          />
-        )}
-        {data.status == 'done' && (
-          <ButtonComponent
-            label="Kirim Link Ulasan"
-            paint="primary"
-            onClick={() => sendWaReviewLink(data.phone_number)}
-          />
-        )}
-      </div>
     </div>
   );
 }
