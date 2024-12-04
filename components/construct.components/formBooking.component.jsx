@@ -2,8 +2,6 @@ import {
   ButtonComponent,
   FormSupervisionComponent,
   InputCheckboxComponent,
-  InputComponent,
-  InputMapComponent,
   SelectComponent,
 } from '../base.components';
 import PhoneValidateComponent from './PhoneValidate.component';
@@ -63,54 +61,6 @@ function FormBookingComponent() {
               options: styleOptions,
               validations: {
                 required: true,
-              },
-            },
-          },
-          {
-            construction: {
-              name: 'name',
-              label: 'Nama Pemesan',
-              placeholder: 'Masukkan nama pemesan...',
-              validations: {
-                required: true,
-              },
-            },
-          },
-          // {
-          //   col: 2,
-          //   type: 'select',
-          //   construction: {
-          //     name: 'prefix',
-          //     label: 'Kode Negara',
-          //     placeholder: '',
-          //     options: [{ label: 'idn (+62)', value: '62' }],
-          //     validations: {
-          //       required: true,
-          //     },
-          //   },
-          // },
-          {
-            type: 'custom',
-            custom: ({ values, setValues, errors, setErrors }) => {
-              return (
-                <PhoneValidateComponent
-                  values={values}
-                  setValues={setValues}
-                  errors={errors}
-                  setErrors={setErrors}
-                />
-              );
-            },
-          },
-          {
-            construction: {
-              type: 'email',
-              name: 'email',
-              label: 'Email',
-              placeholder: 'ex: livia@gmail.com',
-              validations: {
-                required: true,
-                email: true,
               },
             },
           },
@@ -187,12 +137,64 @@ function FormBookingComponent() {
                           required: true,
                         }}
                       />
+                      <span className="text-sm text-warning">
+                        NB: Setiap Properti Memiliki Harga Berbeda
+                      </span>
                     </div>
                   )}
                 </div>
               );
             },
           },
+          {
+            construction: {
+              name: 'name',
+              label: 'Nama Pemesan',
+              placeholder: 'Masukkan nama pemesan...',
+              validations: {
+                required: true,
+              },
+            },
+          },
+          // {
+          //   col: 2,
+          //   type: 'select',
+          //   construction: {
+          //     name: 'prefix',
+          //     label: 'Kode Negara',
+          //     placeholder: '',
+          //     options: [{ label: 'idn (+62)', value: '62' }],
+          //     validations: {
+          //       required: true,
+          //     },
+          //   },
+          // },
+          {
+            type: 'custom',
+            custom: ({ values, setValues, errors, setErrors }) => {
+              return (
+                <PhoneValidateComponent
+                  values={values}
+                  setValues={setValues}
+                  errors={errors}
+                  setErrors={setErrors}
+                />
+              );
+            },
+          },
+          {
+            construction: {
+              type: 'email',
+              name: 'email',
+              label: 'Email',
+              placeholder: 'ex: livia@gmail.com',
+              validations: {
+                required: true,
+                email: true,
+              },
+            },
+          },
+
           {
             type: 'textarea',
             construction: {
@@ -236,11 +238,12 @@ function FormBookingComponent() {
 
 export default FormBookingComponent;
 export const categoryOptions = [
-  { label: 'Wedding Photography', value: 'wedding-photography' },
-  { label: 'Corporate Videos', value: 'corporate-videos' },
-  { label: 'Event Coverage', value: 'event-coverage' },
+  { label: 'Prewedding', value: 'prewedding' },
+  { label: 'Wedding', value: 'Wedding' },
+  { label: 'Corporate', value: 'Corporate' },
+  { label: 'Graduate', value: 'Graduate' },
 ];
-const styleOptions = [
+export const styleOptions = [
   { label: 'moody', value: 'moody' },
   { label: 'tradisional', value: 'tradisional' },
   { label: 'clean', value: 'clean' },

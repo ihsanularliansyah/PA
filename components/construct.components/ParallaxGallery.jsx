@@ -4,7 +4,7 @@ import Image from 'next/image';
 function ParallaxGallery() {
   return (
     <div class="px-4 grid grid-cols-2 md:grid-cols-4 gap-4">
-      <div class="grid gap-4">
+      <div class="grid gap-4 bg-red-300">
         <div>
           <Image
             width={404}
@@ -33,7 +33,7 @@ function ParallaxGallery() {
           />
         </div>
       </div>
-      <div class="grid gap-4">
+      <div class="grid gap-4 bg-yellow-300">
         <div>
           <Image
             width={404}
@@ -62,7 +62,7 @@ function ParallaxGallery() {
           />
         </div>
       </div>
-      <div class="grid gap-4">
+      <div class="grid gap-4 bg-green-300">
         <div>
           <Image
             width={404}
@@ -91,7 +91,7 @@ function ParallaxGallery() {
           />
         </div>
       </div>
-      <div class="grid gap-4">
+      <div class="grid gap-4 bg-purple-300">
         <div>
           <Image
             width={404}

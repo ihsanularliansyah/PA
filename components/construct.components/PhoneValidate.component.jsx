@@ -38,6 +38,7 @@ function PhoneValidateComponent({
       });
       if (pingResponse?.status == 200) {
         setLoadingValidate(false);
+        // console.log(pingResponse?.data?.numberExists);
       }
       if (pingResponse?.data?.numberExists) {
         setValues([
@@ -69,6 +70,13 @@ function PhoneValidateComponent({
         ]);
       }
     }
+    // setValues([
+    //   ...values?.filter(
+    //     (val) => !['phone_number', 'validNumber'].includes(val.name)
+    //   ),
+    //   { name: 'phone_number', value: inputPhone },
+    //   { name: 'validNumber', value: 1 },
+    // ]);
   }
 
   async function sendOtp() {
@@ -130,16 +138,24 @@ function PhoneValidateComponent({
               setInputPhone(e);
             }}
             value={values.find((val) => val.name == 'phone_number')?.value}
-            error={errors.find((val) => val.name == 'phone_number')?.error}
+            // error={errors.find((val) => val.name == 'phone_number')?.error}
             disabled={cooldown}
           />
-          <small className="h-4 text-green-600">
-            {!errors.find((val) => val.name == 'phone_number')?.error &&
-              inputPhone.length > 5 &&
-              activeNumber &&
-              'nomor WhatsApp ditemukan'}
-            {cooldown > 0 && ` (${cooldown})`}
-          </small>
+          {!errors.find((val) => val.name == 'phone_number')?.error &&
+            inputPhone.length > 5 &&
+            activeNumber && (
+              <small className="h-4 text-green-600">
+                {'nomor WhatsApp ditemukan'}
+                {cooldown > 0 && ` (${cooldown})`}
+              </small>
+            )}
+          {errors.find((val) => val.name == 'phone_number')?.error && (
+            <small className="h-4 text-red-600">
+              {!loadingValidate
+                ? 'nomor WhatsApp tidak ditemukan'
+                : 'cek nomor...'}
+            </small>
+          )}
         </div>
       </div>
     </>

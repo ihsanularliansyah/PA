@@ -18,29 +18,18 @@ import DetailBookingPage from '../../components/construct.components/DetailBooki
 import { TextareaComponent } from '../../components/base.components/input/Textarea.component';
 import { faCommentDots } from '@fortawesome/free-solid-svg-icons';
 import {
+  categoryOptions,
   dresscodeOptions,
   propertiOPtions,
+  styleOptions,
 } from '../../components/construct.components/formBooking.component';
+import { decryptOtp } from '../../helpers/encryption.helpers';
 function DaftarBooking() {
   const [selected, setSelected] = useState(null);
   const [reviewModal, setReviewModal] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const route = useRouter();
   const { isAuthenticated, isLoading } = useKindeAuth();
-  const categoryOptions = [
-    { label: 'Wedding Photography', value: 'wedding-photography' },
-    { label: 'Corporate Videos', value: 'corporate-videos' },
-    { label: 'Event Coverage', value: 'event-coverage' },
-  ];
-  const styleOptions = [
-    { label: 'moody', value: 'moody' },
-    { label: 'tradisional', value: 'tradisional' },
-    { lebel: 'clean', value: 'clean' },
-    { label: 'modern', value: 'modern' },
-    { label: 'vintage', value: 'vintage' },
-    { label: 'pastel', value: 'pastel' },
-    { label: 'colourful', value: 'colourful' },
-  ];
   const statusOptions = [
     { label: 'proceed', value: 'proceed' },
     { label: 'aproved', value: 'aproved' },
@@ -71,7 +60,9 @@ function DaftarBooking() {
               item: ({ name, phone_number }) => (
                 <>
                   <p className="border-b-2 py-2">{name}</p>
-                  <p className="text-sm py-2">Kontak: {phone_number}</p>
+                  <p className="text-sm py-2">
+                    Kontak: {decryptOtp(phone_number)}
+                  </p>
                 </>
               ),
             },

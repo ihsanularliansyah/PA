@@ -9,26 +9,27 @@ export default async function handler(req, res) {
 
     // Encrypt both phone and OTP
 
+    const encryptedPhone = encryptOtp(phone_number);
     const encryptedOtp = encryptOtp(otp);
 
     try {
       const existingToken = await prisma.token.findFirst({
         where: {
-          phone_number: phone_number,
+          phone_number: encryptedPhone,
         },
       });
 
       if (!existingToken) {
         await prisma.token.create({
           data: {
-            phone_number,
+            phone_number: encryptedPhone,
             otp: encryptedOtp,
             is_valid: true,
           },
         });
       } else {
         await prisma.token.update({
-          where: { phone_number: phone_number },
+          where: { phone_number: encryptedPhone },
           data: { is_valid: true, otp: encryptedOtp },
         });
       }

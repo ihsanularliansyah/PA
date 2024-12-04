@@ -19,7 +19,8 @@ export const useForm = (
   );
   const [loading, setLoading] = useState<boolean>(false);
   const [showConfirm, setShowConfirm] = useState<boolean>(false);
-
+console.log(formValues);
+console.log(formErrors);
   useEffect(() => {
     setFormRegisters([]);
     setFormValues([]);

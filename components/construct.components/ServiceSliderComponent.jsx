@@ -184,7 +184,7 @@ const ServiceSliderComponent = () => {
         onClose={() => setModalDetail(false)}
         title={
           <p className="pb-4">
-            {typeof modalDetail == 'string' && modalDetail?.replace(/\-/g, ' ')}
+            <span>{typeof modalDetail == 'string' && modalDetail?.replace(/\-/g, ' ')}</span> <span className='text-green-400 italic pl-4'>Start From Rp. 300.000-</span>
           </p>
         }
         width="xl"

@@ -4,6 +4,7 @@ import { post } from '../../helpers';
 import moment from 'moment';
 import 'moment/locale/id';
 import { propertiOPtions } from './formBooking.component';
+import { decryptOtp } from '../../helpers/encryption.helpers';
 export default function DetailBookingPage({ data }) {
   const formatedDate = moment(data?.event_date)
     .locale('id')
@@ -13,7 +14,7 @@ export default function DetailBookingPage({ data }) {
 
   const encodedMessage = encodeURIComponent(message);
   async function sendWaConfirm(chatId) {
-    await post({
+    const confirmMessage = await post({
       url: 'http://localhost:3000/api/sendText',
       contentType: 'application/json',
       body: {
@@ -22,6 +23,8 @@ export default function DetailBookingPage({ data }) {
         session: 'default',
       },
     });
+    // console.log(confirmMessage);
+    if (confirmMessage.status == 201) alert('konfirmasi booking terkirim');
   }
   async function sendWaReviewLink(chatId) {
     const message = `Semoga momen berharga anda yang diabadikan kami selalu dikenang dihati/n/n silahkan berikan ulasan mengenai layanan kami melalui link berikut ini: ${
@@ -45,14 +48,14 @@ export default function DetailBookingPage({ data }) {
           <ButtonComponent
             label="Konfirmasi Booking"
             paint="success"
-            onClick={() => sendWaConfirm(data.phone_number)}
+            onClick={() => sendWaConfirm(decryptOtp(data?.phone_number))}
           />
         )}
         {data.status == 'done' && (
           <ButtonComponent
             label="Kirim Link Ulasan"
             paint="primary"
-            onClick={() => sendWaReviewLink(data.phone_number)}
+            onClick={() => sendWaReviewLink(decryptOtp(data?.phone_number))}
           />
         )}
       </div>
@@ -71,7 +74,7 @@ export default function DetailBookingPage({ data }) {
               href={`https://wa.me/+6281216174849?text=${encodedMessage}`}
               rel="noreferrer"
             >
-              {data?.phone_number}
+              {decryptOtp(data?.phone_number)}
             </a>
           </div>
         </li>
@@ -108,7 +111,7 @@ export default function DetailBookingPage({ data }) {
         <li className="grid grid-cols-12">
           <b className="col-span-3">Tema Pakaian</b>
           <div className="col-span-9">
-            : {data?.dresscode.replace(/\-/g, ' ') || '-'}
+            : {data?.dresscode?.replace(/\-/g, ' ') || '-'}
           </div>
         </li>
         <li>
@@ -127,7 +130,7 @@ export default function DetailBookingPage({ data }) {
               // placeholder="Pilih Tema Pakaian..."
               options={propertiOPtions}
               vertical={'h-96'}
-              value={data?.properties.split(',')}
+              value={data?.properties?.split(',')}
             />
           </div>
         </li>
