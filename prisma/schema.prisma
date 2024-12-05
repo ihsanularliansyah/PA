@@ -50,25 +50,26 @@ model Token {
 }
 
 model Section {
-  id      Int     @id @default(autoincrement())
-  name    String  @unique
-  sets    Set[]
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  sets Set[]
 }
 
 model Set {
   id        Int     @id @default(autoincrement())
   sectionId Int
+  setIndex  Int     @unique
   section   Section @relation(fields: [sectionId], references: [id])
   images    Image[]
 }
 
 model Image {
-  id        Int     @id @default(autoincrement())
-  setId     Int
+  id        Int    @id @default(autoincrement())
+  setIdx    Int
   setColumn Int
   setRow    Int
   filePath  String
-  set       Set     @relation(fields: [setId], references: [id])
+  set       Set    @relation(fields: [setIdx], references: [setIndex])
 
-  @@unique([setId, setColumn, setRow]) // Ensure unique positioning
+  @@unique([setIdx, setColumn, setRow]) // Ensure unique positioning
 }

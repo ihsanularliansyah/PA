@@ -3,7 +3,7 @@ import Link from 'next/link';
 // import SevicesListComponent from '../components/construct.components/sevicesList.component';
 import FormBookingComponent from '../components/construct.components/formBooking.component';
 import ServiceSliderComponent from '../components/construct.components/ServiceSliderComponent';
-import ParallaxGallery from '../components/construct.components/ParallaxGallery';
+// import ParallaxGallery from '../components/construct.components/ParallaxGallery';
 import prisma from '../lib/db';
 import StarRating from '../components/construct.components/StarRatingComponent';
 import Gallery from '../components/construct.components/Gallery';
@@ -156,7 +156,7 @@ export default function Home({ reviews }) {
         <div className="container mx-auto px-6">
           <h2 className="text-3xl font-bold text-center mb-12">Our Work</h2>
         </div>
-        {/* <ParallaxGallery /> */}
+        {/* <ParallaxGallery />s */}
         <Gallery />
       </section>
 

@@ -15,6 +15,7 @@ async function main() {
   const set = await prisma.set.create({
     data: {
       sectionId: section.id,
+      setIndex: 0,
     },
   });
 
@@ -23,10 +24,10 @@ async function main() {
   for (let col = 1; col <= 4; col++) {
     for (let row = 1; row <= 3; row++) {
       images.push({
-        setId: set.id,
+        setIdx: set.setIndex,
         setColumn: col,
         setRow: row,
-        filePath: `/uploads/portofolio-set${set.id}-[${col}-${row}].jpg`,
+        filePath: `/uploads/portofolio-set.${set.setIndex}-${col}-${row}.jpg`,
       });
     }
   }

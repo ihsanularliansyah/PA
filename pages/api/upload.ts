@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs/promises';
-
+import db from '../../lib/db';
 // Function to map MIME types to file extensions
 const mimeToExtension = (mimeType: string): string => {
   const mimeMap: { [key: string]: string } = {
@@ -11,10 +11,8 @@ const mimeToExtension = (mimeType: string): string => {
     'image/png': '.png',
     'image/gif': '.gif',
     'image/webp': '.webp',
-    'application/pdf': '.pdf',
-    // Add more mappings as needed
   };
-  return mimeMap[mimeType] || ''; // Return empty string if MIME type is not mapped
+  return mimeMap[mimeType] || '';
 };
 
 // Configure Multer
@@ -67,27 +65,48 @@ export default async function handler(
       // Run Multer middleware
       await runMiddleware(req, res, multerMiddleware);
 
-      // Access uploaded files
       const files = (req as any).files; // Multer attaches files to `req`
-      const uploadedFiles = [];
 
+      // Parse and update file paths
       for (const file of files) {
-        uploadedFiles.push({
-          originalName: file.originalname,
-          savedAs: file.filename, // Should match the payload key with extension
-          filePath: `/uploads/${file.filename}`,
-          mimeType: file.mimetype, // Include MIME type for reference
-        });
-      }
+        // Split the fieldname using the new payload format
+        const match = file.fieldname.match(/^(.+)-set\.(\d+)-(\d+)-(\d+)$/);
+        if (!match) {
+          console.error(`Invalid fieldname format: ${file.fieldname}`);
+          continue;
+        }
 
-      // Respond with uploaded file details
-      res.status(200).json({
-        message: 'Files uploaded successfully',
-        files: uploadedFiles,
-      });
+        const [, sectionName, setIdx, setColumn, setRow] = match;
+
+        // Convert extracted strings to numbers
+        const setId = Number(setIdx);
+        const column = Number(setColumn);
+        const row = Number(setRow);
+
+        // Update the database
+        const updateFiePath = await db.image.update({
+          where: {
+            setIdx_setColumn_setRow: {
+              setIdx: setId,
+              setColumn: column,
+              setRow: row,
+            }, // Compound unique constraint
+          },
+          data: {
+            filePath: `/uploads/${file.filename}`,
+          },
+        });
+
+        console.log(updateFiePath);
+      }
+      res
+        .status(201)
+        .json({ message: 'successfully upload and database update' });
     } catch (error) {
-      console.error('Upload Error:', error);
-      res.status(500).json({ error: 'Failed to upload files' });
+      console.error('Error during upload and database update:', error);
+      res
+        .status(500)
+        .json({ error: 'Failed to upload files and update database' });
     }
   } else {
     // Handle unsupported methods

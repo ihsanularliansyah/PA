@@ -46,24 +46,24 @@ const Portofolio = () => {
                   <InputImageComponent
                     aspect={'9/16'}
                     crop
-                    cropSize={[255, 400]}
-                    {...formControl('portofolio-set1-[1-1]')}
+                    cropSize={[220, 400]}
+                    {...formControl('portofolio-set.0-1-1')}
                   />
                 </div>
                 <div className="">
                   <InputImageComponent
                     aspect={'2/3'}
                     crop
-                    cropSize={[266.6667, 400]}
-                    {...formControl('portofolio-set1-[1-2]')}
+                    cropSize={[200, 300]}
+                    {...formControl('portofolio-set.0-1-2')}
                   />
                 </div>
                 <div className="">
                   <InputImageComponent
                     aspect={'16/9'}
                     crop
-                    cropSize={[400, 255]}
-                    {...formControl('portofolio-set1-[1-3]')}
+                    cropSize={[400, 220]}
+                    {...formControl('portofolio-set.0-1-3')}
                   />
                 </div>
               </div>
@@ -72,24 +72,24 @@ const Portofolio = () => {
                   <InputImageComponent
                     aspect={'2/3'}
                     crop
-                    cropSize={[266.6667, 400]}
-                    {...formControl('portofolio-set1-[2-1]')}
+                    cropSize={[200, 300]}
+                    {...formControl('portofolio-set.0-2-1')}
                   />
                 </div>
                 <div className="">
                   <InputImageComponent
                     aspect={'16/9'}
                     crop
-                    cropSize={[400, 255]}
-                    {...formControl('portofolio-set1-[2-2]')}
+                    cropSize={[400, 220]}
+                    {...formControl('portofolio-set.0-2-2')}
                   />
                 </div>
                 <div className="">
                   <InputImageComponent
                     aspect={'9/16'}
                     crop
-                    cropSize={[255, 400]}
-                    {...formControl('portofolio-set1-[2-3]')}
+                    cropSize={[220, 400]}
+                    {...formControl('portofolio-set.0-2-3')}
                   />
                 </div>
               </div>
@@ -98,24 +98,24 @@ const Portofolio = () => {
                   <InputImageComponent
                     aspect={'9/16'}
                     crop
-                    cropSize={[255, 400]}
-                    {...formControl('portofolio-set1-[3-1]')}
+                    cropSize={[220, 400]}
+                    {...formControl('portofolio-set.0-3-1')}
                   />
                 </div>
                 <div className="">
                   <InputImageComponent
                     aspect={'2/3'}
                     crop
-                    cropSize={[266.6667, 400]}
-                    {...formControl('portofolio-set1-[3-2]')}
+                    cropSize={[200, 300]}
+                    {...formControl('portofolio-set.0-3-2')}
                   />
                 </div>
                 <div className="">
                   <InputImageComponent
                     aspect={'16/9'}
                     crop
-                    cropSize={[400, 255]}
-                    {...formControl('portofolio-set1-[3-3]')}
+                    cropSize={[400, 220]}
+                    {...formControl('portofolio-set.0-3-3')}
                   />
                 </div>
               </div>
@@ -124,24 +124,24 @@ const Portofolio = () => {
                   <InputImageComponent
                     aspect={'2/3'}
                     crop
-                    cropSize={[266.6667, 400]}
-                    {...formControl('portofolio-set1-[4-1]')}
+                    cropSize={[200, 300]}
+                    {...formControl('portofolio-set.0-4-1')}
                   />
                 </div>
                 <div className="">
                   <InputImageComponent
                     aspect={'16/9'}
                     crop
-                    cropSize={[400, 255]}
-                    {...formControl('portofolio-set1-[4-2]')}
+                    cropSize={[400, 220]}
+                    {...formControl('portofolio-set.0-4-2')}
                   />
                 </div>
                 <div className="">
                   <InputImageComponent
                     aspect={'9/16'}
                     crop
-                    cropSize={[255, 400]}
-                    {...formControl('portofolio-set1-[4-3]')}
+                    cropSize={[220, 400]}
+                    {...formControl('portofolio-set.0-4-3')}
                   />
                 </div>
               </div>
