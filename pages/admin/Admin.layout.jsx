@@ -1,4 +1,8 @@
-import { faChartSimple, faUser } from '@fortawesome/free-solid-svg-icons';
+import {
+  faChartSimple,
+  faImages,
+  faUser,
+} from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 // import { AccessProvider, UserProvider } from '../../../context';
 import {
@@ -32,6 +36,11 @@ export function AdminLayout({ children }) {
           label: 'Daftar Booking',
           icon: faUser,
           path: 'daftar-booking',
+        },
+        {
+          label: 'Portofolio',
+          icon: faImages,
+          path: 'portofolio',
         },
       ],
     },

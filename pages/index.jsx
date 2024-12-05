@@ -6,7 +6,7 @@ import ServiceSliderComponent from '../components/construct.components/ServiceSl
 import ParallaxGallery from '../components/construct.components/ParallaxGallery';
 import prisma from '../lib/db';
 import StarRating from '../components/construct.components/StarRatingComponent';
-import InputImageComponent from '../components/base.components/input/InputImage.component';
+import Gallery from '../components/construct.components/Gallery';
 
 export async function getServerSideProps() {
   const reviews = await prisma.review.findMany({
@@ -156,7 +156,8 @@ export default function Home({ reviews }) {
         <div className="container mx-auto px-6">
           <h2 className="text-3xl font-bold text-center mb-12">Our Work</h2>
         </div>
-        <ParallaxGallery />
+        {/* <ParallaxGallery /> */}
+        <Gallery />
       </section>
 
       {/* Services Section */}
@@ -225,118 +226,6 @@ export default function Home({ reviews }) {
           </div>
         </div>
       </footer>
-      <div className="w-full md:w-3/4 mx-auto mb-10 p-10">
-        {[1].map((i) => {
-          return (
-            <div key={i} className="grid grid-cols-2 md:grid-cols-4 gap-4 pb-4">
-              <div className="grid gap-4 head">
-                <div className="">
-                  <InputImageComponent
-                    aspect={'9/16'}
-                    crop
-                    cropSize={[255, 400]}
-                    // {...formControl('thumbnail')}
-                  />
-                </div>
-                <div className="">
-                  <InputImageComponent
-                    aspect={'2/3'}
-                    crop
-                    cropSize={[266.6667, 400]}
-                    // {...formControl('thumbnail')}
-                  />
-                </div>
-                <div className="">
-                  <InputImageComponent
-                    aspect={'16/9'}
-                    crop
-                    cropSize={[400, 255]}
-                    // {...formControl('thumbnail')}
-                  />
-                </div>
-              </div>
-              <div className="grid gap-4 tail">
-                <div className="">
-                  <InputImageComponent
-                    aspect={'2/3'}
-                    crop
-                    cropSize={[266.6667, 400]}
-                    // {...formControl('thumbnail')}
-                  />
-                </div>
-                <div className="">
-                  <InputImageComponent
-                    aspect={'16/9'}
-                    crop
-                    cropSize={[400, 255]}
-                    // {...formControl('thumbnail')}
-                  />
-                </div>
-                <div className="">
-                  <InputImageComponent
-                    aspect={'9/16'}
-                    crop
-                    cropSize={[255, 400]}
-                    // {...formControl('thumbnail')}
-                  />
-                </div>
-              </div>
-              <div className="grid gap-4 head">
-                <div className="">
-                  <InputImageComponent
-                    aspect={'9/16'}
-                    crop
-                    cropSize={[255, 400]}
-                    // {...formControl('thumbnail')}
-                  />
-                </div>
-                <div className="">
-                  <InputImageComponent
-                    aspect={'2/3'}
-                    crop
-                    cropSize={[266.6667, 400]}
-                    // {...formControl('thumbnail')}
-                  />
-                </div>
-                <div className="">
-                  <InputImageComponent
-                    aspect={'16/9'}
-                    crop
-                    cropSize={[400, 255]}
-                    // {...formControl('thumbnail')}
-                  />
-                </div>
-              </div>
-              <div className="grid gap-4 tail">
-                <div className="">
-                  <InputImageComponent
-                    aspect={'2/3'}
-                    crop
-                    cropSize={[266.6667, 400]}
-                    // {...formControl('thumbnail')}
-                  />
-                </div>
-                <div className="">
-                  <InputImageComponent
-                    aspect={'16/9'}
-                    crop
-                    cropSize={[400, 255]}
-                    // {...formControl('thumbnail')}
-                  />
-                </div>
-                <div className="">
-                  <InputImageComponent
-                    aspect={'9/16'}
-                    crop
-                    cropSize={[255, 400]}
-                    // {...formControl('thumbnail')}
-                  />
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
     </div>
   );
 }

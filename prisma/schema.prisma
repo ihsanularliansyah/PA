@@ -19,9 +19,9 @@ model Booking {
   event_date   DateTime
   style        String
   detail       String?
-  dresscode       String?
-  location       String?
-  properties       String?
+  dresscode    String?
+  location     String?
+  properties   String?
   status       String   @default("proceed")
   created_at   DateTime @default(now())
   updated_at   DateTime @updatedAt
@@ -38,7 +38,7 @@ model Review {
   created_at     DateTime @default(now())
 
   bookingId String  @unique
-  booking   Booking @relation(fields: [bookingId], references: [id],onDelete: Cascade)
+  booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
 }
 
 model Token {
@@ -47,4 +47,28 @@ model Token {
   otp          String
   is_valid     Boolean
   createdAt    DateTime @default(now())
+}
+
+model Section {
+  id      Int     @id @default(autoincrement())
+  name    String  @unique
+  sets    Set[]
+}
+
+model Set {
+  id        Int     @id @default(autoincrement())
+  sectionId Int
+  section   Section @relation(fields: [sectionId], references: [id])
+  images    Image[]
+}
+
+model Image {
+  id        Int     @id @default(autoincrement())
+  setId     Int
+  setColumn Int
+  setRow    Int
+  filePath  String
+  set       Set     @relation(fields: [setId], references: [id])
+
+  @@unique([setId, setColumn, setRow]) // Ensure unique positioning
 }
