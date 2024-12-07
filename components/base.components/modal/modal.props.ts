@@ -28,6 +28,7 @@ export type floatingPageProps = {
   onClose: () => void;
   size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   children?: any;
+  header?: any;
   tip?: string;
   mobileScreen?: {
     size: 'sm' | 'md' | 'lg' | 'xl';

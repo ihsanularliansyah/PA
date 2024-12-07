@@ -20,8 +20,8 @@ const Portofolio = () => {
     },
     false,
     () => {
-      //   onUpdate?.();
-      //   setEditable(null);
+      // onUpdate?.();
+      setShowConfirm(false);
     }
   );
   return (

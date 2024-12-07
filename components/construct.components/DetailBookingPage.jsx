@@ -27,7 +27,7 @@ export default function DetailBookingPage({ data }) {
     if (confirmMessage.status == 201) alert('konfirmasi booking terkirim');
   }
   async function sendWaReviewLink(chatId) {
-    const message = `Semoga momen berharga anda yang diabadikan kami selalu dikenang dihati/n/n silahkan berikan ulasan mengenai layanan kami melalui link berikut ini: ${
+    const message = `Semoga momen berharga anda yang diabadikan kami selalu dikenang dihati. silahkan berikan ulasan mengenai layanan kami melalui link berikut ini: ${
       window.location.origin
     }/review/${data?.Review?.at(0)?.id}`;
     await post({

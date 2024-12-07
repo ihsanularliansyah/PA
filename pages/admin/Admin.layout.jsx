@@ -24,7 +24,7 @@ export function AdminLayout({ children }) {
         {
           label: 'Dashboard',
           icon: faChartSimple,
-          path: '/dashboard',
+          path: 'dashboard',
         },
       ],
     },

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect, useCallback } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,8 +10,14 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 // import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { ButtonComponent, ModalComponent } from '../base.components';
+import {
+  ButtonComponent,
+  FloatingPageComponent,
+  ModalComponent,
+  SelectComponent,
+} from '../base.components';
 import Image from 'next/image';
+import { styleOptions } from './formBooking.component';
 // import Autoplay from 'embla-carousel-autoplay';
 // import { PrevIcon, NextIcon } from './Icons'; // Assume you have icon components
 
@@ -51,52 +58,28 @@ const ServiceSliderComponent = () => {
 
   const services = [
     {
-      slug: 'wedding-photography',
-      name: 'Wedding Photography',
+      slug: 'prewedding',
+      name: 'Prewedding',
       desc: ' Capture the beauty of your special day with our professional wedding photography services.',
       icon: '/parallax/untitled-3357.JPG',
     },
     {
-      slug: 'corporate-videos',
-      name: 'Corporate Videos',
+      slug: 'wedding',
+      name: 'Wedding',
       desc: 'Showcase your business with high-quality corporate videos that make an impact.',
       icon: '/parallax/untitled-2026.jpg',
     },
     {
-      slug: 'event-coverage',
-      name: 'Event Coverage',
+      slug: 'corporate',
+      name: 'Corporate',
       desc: 'Document your events with comprehensive photography and videography services.',
       icon: '/parallax/colorist-5837.JPG',
     },
     {
-      slug: 'wedding-photography',
-      name: 'Wedding Photography',
+      slug: 'graduate',
+      name: 'Graduate',
       desc: ' Capture the beauty of your special day with our professional wedding photography services.',
-    },
-    {
-      slug: 'corporate-videos',
-      name: 'Corporate Videos',
-      desc: 'Showcase your business with high-quality corporate videos that make an impact.',
-    },
-    {
-      slug: 'event-coverage',
-      name: 'Event Coverage',
-      desc: 'Document your events with comprehensive photography and videography services.',
-    },
-    {
-      slug: 'wedding-photography',
-      name: 'Wedding Photography',
-      desc: ' Capture the beauty of your special day with our professional wedding photography services.',
-    },
-    {
-      slug: 'corporate-videos',
-      name: 'Corporate Videos',
-      desc: 'Showcase your business with high-quality corporate videos that make an impact.',
-    },
-    {
-      slug: 'event-coverage',
-      name: 'Event Coverage',
-      desc: 'Document your events with comprehensive photography and videography services.',
+      icon: '/parallax/NABILA-05.JPG',
     },
   ];
 
@@ -107,7 +90,7 @@ const ServiceSliderComponent = () => {
           <div className="flex -mx-4">
             {services.map((service, index) => (
               <div
-                className="min-w-[100%] md:min-w-[33.3333%] px-4 flex-shrink-0"
+                className="min-w-[100%] md:min-w-[25%] px-4 flex-shrink-0"
                 key={index}
                 onClick={async () => {
                   await router.replace(
@@ -149,7 +132,7 @@ const ServiceSliderComponent = () => {
         </div>
 
         {/* Navigation Buttons */}
-        {selectedIndex != 0 && (
+        {/* {selectedIndex != 0 && (
           <button
             className="hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white shadow absolute top-1/2 left-4 transform -translate-y-1/2 hover:bg-gray-100 transition"
             onClick={scrollPrev}
@@ -164,10 +147,10 @@ const ServiceSliderComponent = () => {
           >
             <FontAwesomeIcon icon={faCaretRight} size="2x" />
           </button>
-        )}
+        )} */}
 
         {/* Dots Navigation */}
-        <div className="flex justify-center mt-6 space-x-2">
+        {/* <div className="flex justify-center mt-6 space-x-2">
           {scrollSnaps.map((_, index) => (
             <button
               key={index}
@@ -177,46 +160,29 @@ const ServiceSliderComponent = () => {
               onClick={() => scrollTo(index)}
             />
           ))}
-        </div>
+        </div> */}
       </div>
-      <ModalComponent
+      <FloatingPageComponent
         show={modalDetail?.length}
         onClose={() => setModalDetail(false)}
         title={
           <p className="pb-4">
-            <span>{typeof modalDetail == 'string' && modalDetail?.replace(/\-/g, ' ')}</span> <span className='text-green-400 italic pl-4'>Start From Rp. 300.000-</span>
+            <span>
+              {typeof modalDetail == 'string' &&
+                modalDetail?.replace(/\-/g, ' ')}
+            </span>{' '}
+            <span className="text-green-400 italic pl-4">
+              Start From Rp. 300.000-
+            </span>
           </p>
         }
-        width="xl"
-        footer={
-          <div className="flex justify-center gap-10 px-10">
-            <ButtonComponent
-              onClick={() => {
-                setModalDetail(false);
-              }}
-              label="Tutup"
-              icon={faXmark}
-              size="lg"
-              variant="outline"
-              paint="danger"
-              block
-            />
-            <ButtonComponent
-              onClick={() => {
-                setModalDetail(false);
-                document
-                  .getElementById('contact')
-                  .scrollIntoView({ behavior: 'smooth' });
-              }}
-              label="Booking"
-              icon={faCheck}
-              size="lg"
-              block
-            />
+        header={
+          <div className="px-10 pb-4">
+            <SelectComponent options={styleOptions} value={'modern'} />
           </div>
         }
       >
-        <div className="grid grid-cols-2">
+        <div className="grid grid-cols-2 px-10 pb-8 gap-4">
           <div class="flex flex-wrap gap-4 justify-center">
             {images.at(0)?.length &&
               images.at(0).map((img, key) => {
@@ -250,7 +216,32 @@ const ServiceSliderComponent = () => {
               })}
           </div>
         </div>
-      </ModalComponent>
+        <div className="flex justify-center gap-10 px-10 mb-8">
+          <ButtonComponent
+            onClick={() => {
+              setModalDetail(false);
+            }}
+            label="Tutup"
+            icon={faXmark}
+            size="lg"
+            variant="outline"
+            paint="danger"
+            block
+          />
+          <ButtonComponent
+            onClick={() => {
+              setModalDetail(false);
+              document
+                .getElementById('contact')
+                .scrollIntoView({ behavior: 'smooth' });
+            }}
+            label="Booking"
+            icon={faCheck}
+            size="lg"
+            block
+          />
+        </div>
+      </FloatingPageComponent>
     </>
   );
 };
@@ -259,19 +250,25 @@ export default ServiceSliderComponent;
 function MoreAbout(event) {
   let imagesList = [];
   switch (event) {
-    case (event = 'wedding-photography'):
+    case (event = 'prewedding'):
       imagesList = [
         ['untitled-3357.jpg', 'untitled-2699.jpg'],
         ['untitled-2911.jpg', 'untitled-3287.jpg'],
       ];
       break;
-    case (event = 'corporate-videos'):
+    case (event = 'wedding'):
       imagesList = [
         ['untitled-3357.jpg', 'untitled-2699.jpg'],
         ['untitled-2911.jpg', 'untitled-3287.jpg'],
       ];
       break;
-    case (event = 'event-coverage'):
+    case (event = 'corporate'):
+      imagesList = [
+        ['colorist-5837.jpg', 'colorist-6301.jpg'],
+        ['untitled-1916.jpg', 'untitled-2026.jpg'],
+      ];
+      break;
+    case (event = 'graduate'):
       imagesList = [
         ['colorist-5837.jpg', 'colorist-6301.jpg'],
         ['untitled-1916.jpg', 'untitled-2026.jpg'],

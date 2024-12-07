@@ -386,7 +386,7 @@ function DaftarBooking() {
                   variant="outline"
                   rounded
                   size="sm"
-                  disabled={data?.Review?.at(0)?.link_status == 'active'}
+                  // disabled={data?.Review?.at(0)?.link_status == 'active'}
                   onClick={() => {
                     setReviewModal(true);
                     setSelected(data);

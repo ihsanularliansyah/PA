@@ -12,6 +12,7 @@ export async function getServerSideProps() {
   const reviews = await prisma.review.findMany({
     select: {
       comment: true,
+      rating: true,
       publish_status: true,
       booking: {
         select: {
@@ -142,10 +143,10 @@ export default function Home({ reviews }) {
           </div>
           <div className="grid grid-cols-2">
             <div className="space-y-4 ">
-              <b className="block text-5xl">99</b> <p>Finised Project</p>
+              <b className="block text-5xl">96</b> <p>Finised Project</p>
             </div>
             <div className="space-y-4 ">
-              <b className="block text-5xl">99</b> <p>Ongoing Project</p>
+              <b className="block text-5xl">16</b> <p>Ongoing Project</p>
             </div>
           </div>
         </div>
@@ -154,7 +155,7 @@ export default function Home({ reviews }) {
       {/* Portfolio Section */}
       <section id="portfolio" className="py-16 bg-white">
         <div className="container mx-auto px-6">
-          <h2 className="text-3xl font-bold text-center mb-12">Our Work</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">Gallery</h2>
         </div>
         {/* <ParallaxGallery />s */}
         <Gallery />
@@ -162,7 +163,7 @@ export default function Home({ reviews }) {
 
       {/* Services Section */}
       <section id="services" className="py-16 bg-gray-100">
-        <div className="container mx-auto px-6 text-center">
+        <div className="px-6 text-center">
           <h2 className="text-3xl font-bold mb-12">Our Services</h2>
           <ServiceSliderComponent />
         </div>
@@ -183,7 +184,7 @@ export default function Home({ reviews }) {
                   >
                     <div className="flex justify-between">
                       <p className="text-lg font-semibold">
-                        {review.booking?.name}
+                        {review.booking?.name} <i className='font-normal text-sm'>event: {review.booking?.event_name}</i>
                       </p>
                       <StarRating
                         ratingValue={review?.rating}

@@ -1,3 +1,4 @@
+import { encryptOtp } from '../../../helpers/encryption.helpers';
 import prisma from '../../../lib/db';
 
 export default async function handler(req, res) {
@@ -66,7 +67,7 @@ export default async function handler(req, res) {
     try {
       const existingBooking = await prisma.booking.findFirst({
         where: {
-          phone_number: prefix + phone_number,
+          phone_number: encryptOtp(prefix + phone_number),
           status: { not: 'done' },
         },
       });
@@ -90,7 +91,7 @@ export default async function handler(req, res) {
         data: {
           name,
           email,
-          phone_number: prefix + phone_number,
+          phone_number: encryptOtp(prefix + phone_number),
           event_name,
           event_date: new Date(event_date),
           detail,
@@ -107,7 +108,8 @@ export default async function handler(req, res) {
 
       res.status(201).json(newBooking);
     } catch (error) {
-      res.status(500).json({ error: 'Failed to create booking' });
+      //res.status(500).json({ error: 'Failed to create booking' });
+      res.status(500).json({ error: error.message });
     }
   } else {
     res.status(405).json({ message: 'Method Not Allowed' });

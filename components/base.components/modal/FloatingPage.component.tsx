@@ -13,6 +13,7 @@ export function FloatingPageComponent({
   children,
   tip,
   className,
+  header,
 }: floatingPageProps) {
   useEffect(() => {
     if (show) {
@@ -58,8 +59,12 @@ export function FloatingPageComponent({
             onClick={() => onClose()}
           />
         </div>
-
-        <div className="max-h-[calc(100vh-60px)] overflow-y-auto scroll_control h-full">
+        <div className={`${!header && 'hidden'}`}>{header}</div>
+        <div
+          className={`${
+            !header ? 'max-h-[calc(100vh-60px)]' : 'max-h-[calc(100vh-100px)]'
+          } overflow-y-auto scroll_control h-full`}
+        >
           {show && children}
         </div>
       </div>

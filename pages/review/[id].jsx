@@ -53,6 +53,7 @@ const ReviewPage = ({ review }) => {
             rating: review?.rating,
             link_status: 'inactive',
           }}
+          onSuccess={() => window.location.reload()}
           forms={[
             {
               type: 'custom',

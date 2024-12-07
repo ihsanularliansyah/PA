@@ -32,6 +32,7 @@ export default function InputImageComponent({
   const [ImageValid, setImageValid] = useState(true);
   const [dragActive, setDragActive] = useState(false);
   const [imageCrop, setImageCrop] = useState(false);
+  const [loadingCrop, setLoadingCrop] = useState(false);
 
   const inputRef = useRef(null);
 
@@ -138,10 +139,14 @@ export default function InputImageComponent({
       // This returns a HTMLCanvasElement, it can be made into a data URL or a blob,
       // drawn on another canvas, or added to the DOM.
       const canvas = imageRef.current.getImage().toDataURL();
-      setImage(canvas);
-      setImageCrop(false);
+      setTimeout(() => {
+        setImage(canvas);
+        setImageCrop(false);
 
-      onChange && onChange(dataURLtoFile(canvas, name));
+        onChange && onChange(dataURLtoFile(canvas, name));
+
+        setLoadingCrop(false); // End loading
+      }, 500); // Optional: Add a small delay for effect
 
       // If you want the image resized to the canvas size (also a HTMLCanvasElement)
       // const canvasScaled = imageRef.current.getImageScaledToCanvas();
@@ -262,12 +267,23 @@ export default function InputImageComponent({
               bg="primary"
               color={'background'}
               size="sm"
-              onClick={() => onCropDown()}
+              loading={loadingCrop}
+              disabled={loadingCrop}
+              onClick={() => {
+                setLoadingCrop(true);
+                onCropDown();
+              }}
             />
           </div>
         }
       >
         <div className="flex justify-center relative">
+          {loadingCrop && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-10">
+              <div className="loader"></div>{' '}
+              {/* Replace with a spinner or loader */}
+            </div>
+          )}
           <div
             onWheel={(e) =>
               e.deltaY < 0
