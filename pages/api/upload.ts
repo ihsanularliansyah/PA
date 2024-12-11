@@ -76,6 +76,7 @@ export default async function handler(
           continue;
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [, sectionName, setIdx, setColumn, setRow] = match;
 
         // Convert extracted strings to numbers

@@ -15,7 +15,7 @@ export default function DetailBookingPage({ data }) {
   const encodedMessage = encodeURIComponent(message);
   async function sendWaConfirm(chatId) {
     const confirmMessage = await post({
-      url: 'http://localhost:3000/api/sendText',
+      url: `${process.env.NEXT_PUBLIC_WAHA_API_URL}/api/sendText`,
       contentType: 'application/json',
       body: {
         chatId,
@@ -30,8 +30,8 @@ export default function DetailBookingPage({ data }) {
     const message = `Semoga momen berharga anda yang diabadikan kami selalu dikenang dihati. silahkan berikan ulasan mengenai layanan kami melalui link berikut ini: ${
       window.location.origin
     }/review/${data?.Review?.at(0)?.id}`;
-    await post({
-      url: 'http://localhost:3000/api/sendText',
+    const doneMessage = await post({
+      url: `${process.env.NEXT_PUBLIC_WAHA_API_URL}/api/sendText`,
       contentType: 'application/json',
       body: {
         chatId,
@@ -39,6 +39,7 @@ export default function DetailBookingPage({ data }) {
         session: 'default',
       },
     });
+    if (doneMessage.status == 201) alert('Link Review terkirim');
   }
 
   return (

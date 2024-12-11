@@ -44,10 +44,10 @@ export type getProps = {
 // ## filter type value
 // =========================>
 export const getFilterTypeValue = {
-  equal: 'eq',
-  notEqual: 'ne',
+  equal: 'equals',
+  notEqual: 'not',
   in: 'in',
-  notIn: 'ni',
+  notIn: 'notIn',
   range: 'bw',
 };
 
@@ -66,6 +66,8 @@ export const get = async ({
     ? url
     : `${process.env.NEXT_PUBLIC_API_URL}/${path || ''}`;
   const fetchHeaders: any = includeHeaders || {};
+  // Add the ngrok-skip-browser-warning header
+  fetchHeaders['ngrok-skip-browser-warning'] = 'true';
 
   if (!fetchHeaders.Authorization) {
     if (bearer) {
@@ -206,7 +208,8 @@ export const post = async ({
     ? url
     : `${process.env.NEXT_PUBLIC_API_URL}/${path || ''}`;
   const fetchHeaders: any = includeHeaders || {};
-
+  // Add the ngrok-skip-browser-warning header
+  fetchHeaders['ngrok-skip-browser-warning'] = 'true';
   if (!fetchHeaders.Authorization) {
     if (bearer) {
       fetchHeaders.Authorization = `Bearer ${bearer}`;

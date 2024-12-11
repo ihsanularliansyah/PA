@@ -6,12 +6,12 @@ export default async function handler(req, res) {
   // ## Get All Booking
   // =========================>
   if (req.method === 'GET') {
-    // Get all bookings with optional filtering and searching
     const { search, filter, paginate, page } = req.query;
 
     try {
       const whereClause = {};
 
+      // Handle search logic
       if (search) {
         whereClause.OR = [
           { name: { contains: search } },
@@ -23,11 +23,29 @@ export default async function handler(req, res) {
         ];
       }
 
+      // Handle filter logic
       if (filter) {
-        whereClause.status = filter;
+        const parsedFilters = JSON.parse(filter); // Convert JSON string to object
+        Object.entries(parsedFilters).forEach(([key, condition]) => {
+          const [type, value] = condition.split(':'); // Split type and value
+
+          if (type === 'equals') {
+            whereClause[key] = { equals: value };
+          } else if (type === 'notEqual') {
+            whereClause[key] = { not: value };
+          } else if (type === 'in') {
+            whereClause[key] = { in: value.split(',') }; // Support CSV for `in`
+          } else if (type === 'notIn') {
+            whereClause[key] = { notIn: value.split(',') }; // Support CSV for `notIn`
+          } else if (type === 'range') {
+            const [start, end] = value.split(','); // Expect "start,end"
+            whereClause[key] = { gte: start, lte: end };
+          }
+        });
       }
 
-      const totalRow = await prisma.booking.count();
+      // Pagination and Prisma query
+      const totalRow = await prisma.booking.count({ where: whereClause });
       const bookings = await prisma.booking.findMany({
         skip: (parseInt(page) - 1) * parseInt(paginate),
         take: parseInt(paginate),
@@ -37,7 +55,7 @@ export default async function handler(req, res) {
       });
 
       res.status(200).json({
-        massage: 'success',
+        message: 'success',
         data: bookings,
         total_row: totalRow,
       });

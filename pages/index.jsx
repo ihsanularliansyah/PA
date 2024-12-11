@@ -169,6 +169,13 @@ export default function Home({ reviews }) {
         </div>
       </section>
 
+      {/* Contact Section */}
+      <section id="contact" className="py-16 bg-gray-900  ">
+        <div className="container mx-auto px-10 md:px-60 py-10">
+          <h2 className="text-3xl font-bold mb-12">Get in Touch</h2>
+          <FormBookingComponent />
+        </div>
+      </section>
       {/* Testimonials Section */}
       <section id="testimonials" className="py-16 bg-white">
         <div className="container mx-auto px-6 text-center">
@@ -184,7 +191,10 @@ export default function Home({ reviews }) {
                   >
                     <div className="flex justify-between">
                       <p className="text-lg font-semibold">
-                        {review.booking?.name} <i className='font-normal text-sm'>event: {review.booking?.event_name}</i>
+                        {review.booking?.name}{' '}
+                        <i className="font-normal text-sm">
+                          event: {review.booking?.event_name}
+                        </i>
                       </p>
                       <StarRating
                         ratingValue={review?.rating}
@@ -200,15 +210,6 @@ export default function Home({ reviews }) {
           </div>
         </div>
       </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="py-16 bg-gray-900  ">
-        <div className="container mx-auto px-10 md:px-60 py-10">
-          <h2 className="text-3xl font-bold mb-12">Get in Touch</h2>
-          <FormBookingComponent />
-        </div>
-      </section>
-
       {/* Footer */}
       <footer className="bg-gray-800 text-gray-400 py-8">
         <div className="container mx-auto px-6 text-center">

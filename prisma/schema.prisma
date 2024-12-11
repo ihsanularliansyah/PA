@@ -22,6 +22,7 @@ model Booking {
   dresscode    String?
   location     String?
   properties   String?
+  receipt_path String?
   status       String   @default("proceed")
   created_at   DateTime @default(now())
   updated_at   DateTime @updatedAt

@@ -5,7 +5,7 @@ const Dashboard = () => {
   return (
     <div>
       <iframe
-        src="http://localhost:3000/dashboard"
+        src={`${process.env.NEXT_PUBLIC_WAHA_API_URL}/dashboard`}
         width="100%"
         height="600"
         frameborder="0"

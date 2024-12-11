@@ -364,29 +364,17 @@ export function TableSupervisionComponent({
   }, [loading, code, data, columnControl, formControl, actionControl]);
 
   useEffect(() => {
-    if (includeFilters) {
-      setMutateFilter([
-        ...(Object.keys(filter).map((key) => {
-          return {
-            column: key,
-            type: 'in',
-            value: filter[key as keyof object],
-          };
-        }) as getFilterParams[]),
-        ...includeFilters,
-      ]);
-    } else {
-      setMutateFilter(
-        Object.keys(filter).map((key) => {
-          return {
-            column: key,
-            type: 'in',
-            value: filter[key as keyof object],
-          };
-        }) as getFilterParams[]
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const transformedFilters = Object.keys(filter).map((key) => ({
+      column: key,
+      type: 'in',
+      value: filter[key as keyof typeof filter],
+    }));
+
+    const combinedFilters = includeFilters
+      ? [...transformedFilters, ...includeFilters]
+      : transformedFilters;
+
+    setMutateFilter(combinedFilters as getFilterParams[]);
   }, [includeFilters, filter]);
 
   return (

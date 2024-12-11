@@ -32,7 +32,9 @@ function PhoneValidateComponent({
       setActiveNumber(false);
       setLoadingValidate(true);
       const pingResponse = await get({
-        url: `http://localhost:3000/api/contacts/check-exists?phone=${
+        url: `${
+          process.env.NEXT_PUBLIC_WAHA_API_URL
+        }/api/contacts/check-exists?phone=${
           prefix + inputPhone
         }&session=default`,
       });
