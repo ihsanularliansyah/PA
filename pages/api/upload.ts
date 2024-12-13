@@ -4,7 +4,8 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs/promises';
 import db from '../../lib/db';
-// Function to map MIME types to file extensions
+
+// Utility function to map MIME types to file extensions
 const mimeToExtension = (mimeType: string): string => {
   const mimeMap: { [key: string]: string } = {
     'image/jpeg': '.jpg',
@@ -24,28 +25,14 @@ const upload = multer({
       callback(null, uploadDir);
     },
     filename: async (req, file, callback) => {
-      const fieldName = file.fieldname; // Payload key (e.g., portfolio-set1-[1-1])
       const ext = mimeToExtension(file.mimetype); // Derive extension from MIME type
-      const uploadDir = path.join(process.cwd(), 'public', 'uploads');
-      const newFileName = `${fieldName}${ext}`; // Append derived extension to the key
-
-      // Check if the file already exists and delete it
-      try {
-        const existingFilePath = path.join(uploadDir, newFileName);
-        await fs.unlink(existingFilePath);
-      } catch (err) {
-        //@ts-ignore
-        if (err.code !== 'ENOENT') throw err; // Ignore file not found errors
-      }
-
-      callback(null, newFileName); // Set the new filename
+      callback(null, `${file.fieldname}${ext}`); // Use fieldname as base for filename
     },
   }),
 });
 
 // Middleware to process uploads
 const multerMiddleware = upload.any();
-
 const runMiddleware = (req: NextApiRequest, res: NextApiResponse, fn: any) =>
   new Promise((resolve, reject) => {
     fn(req, res, (result: any) => {
@@ -69,40 +56,66 @@ export default async function handler(
 
       // Parse and update file paths
       for (const file of files) {
-        // Split the fieldname using the new payload format
         const match = file.fieldname.match(/^(.+)-set\.(\d+)-(\d+)-(\d+)$/);
         if (!match) {
           console.error(`Invalid fieldname format: ${file.fieldname}`);
           continue;
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const [, sectionName, setIdx, setColumn, setRow] = match;
+        const [, sectionName, setIndex, setColumn, setRow] = match;
 
         // Convert extracted strings to numbers
-        const setId = Number(setIdx);
         const column = Number(setColumn);
         const row = Number(setRow);
 
-        // Update the database
-        const updateFiePath = await db.image.update({
-          where: {
-            setIdx_setColumn_setRow: {
-              setIdx: setId,
-              setColumn: column,
-              setRow: row,
-            }, // Compound unique constraint
-          },
-          data: {
-            filePath: `/uploads/${file.filename}`,
-          },
-        });
+        try {
+          // Find the setId based on sectionName and setIndex
+          const set = await db.set.findUnique({
+            where: {
+              sectionId_setIndex: {
+                //@ts-ignore
+                sectionId: (
+                  await db.section.findUnique({
+                    where: { name: sectionName },
+                    select: { id: true },
+                  })
+                )?.id,
+                setIndex: Number(setIndex),
+              },
+            },
+            select: { id: true },
+          });
 
-        console.log(updateFiePath);
+          if (!set) {
+            console.error(`Set not found for fieldname: ${file.fieldname}`);
+            continue;
+          }
+
+          // Update the database
+          await db.image.update({
+            where: {
+              setId_setColumn_setRow: {
+                setId: set.id,
+                setColumn: column,
+                setRow: row,
+              },
+            },
+            data: {
+              filePath: `/uploads/${file.filename}`,
+            },
+          });
+        } catch (error) {
+          console.error(
+            `Error updating database for fieldname: ${file.fieldname}`,
+            error
+          );
+          continue;
+        }
       }
+
       res
         .status(201)
-        .json({ message: 'successfully upload and database update' });
+        .json({ message: 'Files successfully uploaded and database updated.' });
     } catch (error) {
       console.error('Error during upload and database update:', error);
       res

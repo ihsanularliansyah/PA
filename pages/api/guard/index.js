@@ -52,7 +52,7 @@ function generateOTP() {
 
 // Function to handle sending OTP to the user
 async function sendOtpToPhone(phone_number, otp) {
-  await fetch('http://localhost:3000/api/sendText', {
+  await fetch(`${process.env.NEXT_PUBLIC_WAHA_API_URL}/api/sendText`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

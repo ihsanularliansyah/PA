@@ -42,6 +42,11 @@ export function AdminLayout({ children }) {
           icon: faImages,
           path: 'portofolio',
         },
+        {
+          label: 'Gallery',
+          icon: faImages,
+          path: 'services',
+        },
       ],
     },
   ];

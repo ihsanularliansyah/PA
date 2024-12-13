@@ -105,7 +105,7 @@ export default function Home({ reviews }) {
             ABOUT
           </b>
           <Image
-            className="hidden md:block bg-primary absolute bottom-10 -z-10"
+            className="hidden md:block bg-primary absolute  -z-10"
             src="/untitled-1916.JPG"
             alt="shuld be an image"
             width={404}

@@ -59,18 +59,20 @@ model Section {
 model Set {
   id        Int     @id @default(autoincrement())
   sectionId Int
-  setIndex  Int     @unique
+  setIndex  Int
   section   Section @relation(fields: [sectionId], references: [id])
   images    Image[]
+
+  @@unique([sectionId, setIndex]) // Ensure unique setIndex per section
 }
 
 model Image {
   id        Int    @id @default(autoincrement())
-  setIdx    Int
+  setId     Int
   setColumn Int
   setRow    Int
   filePath  String
-  set       Set    @relation(fields: [setIdx], references: [setIndex])
+  set       Set    @relation(fields: [setId], references: [id])
 
-  @@unique([setIdx, setColumn, setRow]) // Ensure unique positioning
+  @@unique([setId, setColumn, setRow]) // Ensure unique positioning within a set
 }

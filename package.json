@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db-reset": "dotenv -e .env.local -- npx prisma migrate reset",
+    "db-reset": "dotenv -e .env.local -- npx prisma migrate reset && dotenv -e .env.local -- npx prisma db push",
     "db-push": "dotenv -e .env.local -- npx prisma db push",
     "db-generate": "dotenv -e .env.local -- npx prisma generate",
     "db-studio": "dotenv -e .env.local -- npx prisma studio",

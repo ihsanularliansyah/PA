@@ -3,38 +3,73 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+// Category and style options
+const categoryOptions = [
+  { label: 'Prewedding', value: 'prewedding' },
+  { label: 'Wedding', value: 'wedding' },
+  { label: 'Corporate', value: 'corporate' },
+  { label: 'Graduate', value: 'graduate' },
+];
+
+const styleOptions = [
+  { label: 'Moody', value: 'moody' },
+  { label: 'Traditional', value: 'traditional' },
+  { label: 'Clean', value: 'clean' },
+  { label: 'Modern', value: 'modern' },
+  { label: 'Vintage', value: 'vintage' },
+  { label: 'Pastel', value: 'pastel' },
+  { label: 'Colourful', value: 'colourful' },
+];
+
 async function main() {
-  // Create a section
-  const section = await prisma.section.create({
+  // Create the "portfolio" section
+  const portfolioSection = await prisma.section.create({
     data: {
       name: 'portofolio',
+      sets: {
+        create: {
+          setIndex: 0,
+          images: {
+            create: Array.from({ length: 4 }, (_, col) =>
+              Array.from({ length: 3 }, (_, row) => ({
+                setColumn: col + 1,
+                setRow: row + 1,
+                filePath: `/uploads/portofolio-set.0-${col + 1}-${row + 1}.png`,
+              }))
+            ).flat(),
+          },
+        },
+      },
     },
   });
+  console.log('Created portfolio section:', portfolioSection.name);
 
-  // Create a set for the section
-  const set = await prisma.set.create({
-    data: {
-      sectionId: section.id,
-      setIndex: 0,
-    },
-  });
-
-  // Create images for the set
-  const images = [];
-  for (let col = 1; col <= 4; col++) {
-    for (let row = 1; row <= 3; row++) {
-      images.push({
-        setIdx: set.setIndex,
-        setColumn: col,
-        setRow: row,
-        filePath: `/uploads/portofolio-set.${set.setIndex}-${col}-${row}.jpg`,
+  // Create sections for each category and style
+  for (const category of categoryOptions) {
+    for (const style of styleOptions) {
+      const sectionName = `${category.value}.${style.value}`;
+      const newSection = await prisma.section.create({
+        data: {
+          name: sectionName,
+          sets: {
+            create: {
+              setIndex: 0,
+              images: {
+                create: Array.from({ length: 4 }, (_, col) =>
+                  Array.from({ length: 3 }, (_, row) => ({
+                    setColumn: col + 1,
+                    setRow: row + 1,
+                    filePath: `/uploads/${sectionName}-set.0-${col + 1}-${row + 1}.png`,
+                  }))
+                ).flat(),
+              },
+            },
+          },
+        },
       });
+      console.log('Created section:', newSection.name);
     }
   }
-
-  await prisma.image.createMany({
-    data: images,
-  });
 
   console.log('Seeding completed.');
 }
