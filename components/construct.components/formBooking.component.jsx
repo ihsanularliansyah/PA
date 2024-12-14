@@ -245,7 +245,7 @@ export const categoryOptions = [
 ];
 export const styleOptions = [
   { label: 'moody', value: 'moody' },
-  { label: 'tradisional', value: 'tradisional' },
+  { label: 'traditional', value: 'traditional' },
   { label: 'clean', value: 'clean' },
   { label: 'modern', value: 'modern' },
   { label: 'vintage', value: 'vintage' },
