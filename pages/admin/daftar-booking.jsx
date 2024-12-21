@@ -9,14 +9,21 @@ import {
   FormSupervisionComponent,
   InputCheckboxComponent,
   InputComponent,
+  RupiahFormatComponent,
   SelectComponent,
   TableSupervisionComponent,
 } from '../../components/base.components';
 import { AdminLayout } from './Admin.layout';
 import PhoneValidateComponent from '../../components/construct.components/PhoneValidate.component';
-import DetailBookingPage from '../../components/construct.components/DetailBookingPage';
+import DetailBookingPage, {
+  sendDpConfirm,
+} from '../../components/construct.components/DetailBookingPage';
 import { TextareaComponent } from '../../components/base.components/input/Textarea.component';
-import { faCommentDots, faReceipt } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCommentDots,
+  faReceipt,
+  faRupiahSign,
+} from '@fortawesome/free-solid-svg-icons';
 import {
   categoryOptions,
   dresscodeOptions,
@@ -101,9 +108,16 @@ function DaftarBooking() {
               {
                 selector: 'event_name',
                 label: 'Event',
-                width: '300px',
-                item: ({ event_name }) => (
-                  <p className="font-semibold">{event_name}</p>
+                width: '200px',
+                item: ({ event_name, price }) => (
+                  <>
+                    <p className="font-semibold">{event_name}</p>
+                    {price && (
+                      <p className="text-sm pt-2">
+                        Biaya: {<RupiahFormatComponent amount={price} />}
+                      </p>
+                    )}
+                  </>
                 ),
               },
               {
@@ -321,6 +335,8 @@ function DaftarBooking() {
                 detail: data?.detail,
                 publish_at: data?.publish_at,
                 status: data?.status,
+                price: data?.price || '',
+                down_payment: data?.down_payment || '',
               };
             },
             custom: [
@@ -344,6 +360,32 @@ function DaftarBooking() {
                   options: statusOptions,
                   validations: {
                     required: true,
+                  },
+                },
+              },
+              {
+                col: 6,
+                type: 'currency',
+                construction: {
+                  name: 'down_payment',
+                  label: 'Uang Muka',
+                  leftIcon: faRupiahSign,
+                  placeholder: 'Masukkan Nominal...',
+                  validations: {
+                    required: true,
+                  },
+                },
+              },
+              {
+                col: 6,
+                type: 'currency',
+                construction: {
+                  name: 'price',
+                  label: 'Biaya',
+                  leftIcon: faRupiahSign,
+                  placeholder: 'Masukkan Nominal Biaya...',
+                  validations: {
+                    // required: true,
                   },
                 },
               },
@@ -549,6 +591,7 @@ function DaftarBooking() {
                   setRefresh(!refresh);
                   setRecieptModal(false);
                   setUpdateReceipt(false);
+                  sendDpConfirm(decryptOtp(selected?.phone_number));
                 }}
                 defaultValue={{
                   bookingId: selected?.id,

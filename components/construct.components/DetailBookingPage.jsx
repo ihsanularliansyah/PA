@@ -1,10 +1,16 @@
 import React from 'react';
-import { ButtonComponent, InputCheckboxComponent } from '../base.components';
+import {
+  ButtonComponent,
+  DateFormatComponent,
+  InputCheckboxComponent,
+  RupiahFormatComponent,
+} from '../base.components';
 import { post } from '../../helpers';
 import moment from 'moment';
 import 'moment/locale/id';
 import { propertiOPtions } from './formBooking.component';
 import { decryptOtp } from '../../helpers/encryption.helpers';
+
 export default function DetailBookingPage({ data }) {
   const formatedDate = moment(data?.event_date)
     .locale('id')
@@ -27,9 +33,10 @@ export default function DetailBookingPage({ data }) {
     if (confirmMessage.status == 201) alert('konfirmasi booking terkirim');
   }
   async function sendWaReviewLink(chatId) {
-    const message = `Semoga momen berharga anda yang diabadikan kami selalu dikenang dihati. silahkan berikan ulasan mengenai layanan kami melalui link berikut ini: ${
+    const message = `Semoga momen berharga anda yang diabadikan kami selalu dikenang dihati.\n\n silahkan berikan ulasan mengenai layanan kami melalui link berikut ini:\n\n ${
       window.location.origin
     }/review/${data?.Review?.at(0)?.id}`;
+
     const doneMessage = await post({
       url: `${process.env.NEXT_PUBLIC_WAHA_API_URL}/api/sendText`,
       contentType: 'application/json',
@@ -50,6 +57,13 @@ export default function DetailBookingPage({ data }) {
             label="Konfirmasi Booking"
             paint="success"
             onClick={() => sendWaConfirm(decryptOtp(data?.phone_number))}
+          />
+        )}
+        {data.status == 'aproved' && (
+          <ButtonComponent
+            label="Konfirmasi Pembayaran"
+            paint="success"
+            onClick={() => sendDpConfirm(decryptOtp(data?.phone_number))}
           />
         )}
         {data.status == 'done' && (
@@ -89,7 +103,9 @@ export default function DetailBookingPage({ data }) {
         </li>
         <li className="grid grid-cols-12">
           <b className="col-span-3">Pelaksanaan</b>
-          <div className="col-span-9">: {data?.event_date}</div>
+          <div className="col-span-9">
+            : <DateFormatComponent date={data?.event_date} />
+          </div>
         </li>
         <li className="grid grid-cols-12">
           <b className="col-span-3">Status</b>
@@ -107,6 +123,18 @@ export default function DetailBookingPage({ data }) {
         <li className="grid grid-cols-12">
           <b className="col-span-3">Lokasi</b>
           <div className="col-span-9">: {data?.location || '-'}</div>
+        </li>
+        <li className="grid grid-cols-12">
+          <b className="col-span-3">Uang Muka</b>
+          <div className="col-span-9">
+            : {<RupiahFormatComponent amount={data?.down_payment} /> || '-'}
+          </div>
+        </li>
+        <li className="grid grid-cols-12">
+          <b className="col-span-3">Biaya</b>
+          <div className="col-span-9">
+            : {<RupiahFormatComponent amount={data?.price} /> || '-'}
+          </div>
         </li>
 
         <li className="grid grid-cols-12">
@@ -138,4 +166,17 @@ export default function DetailBookingPage({ data }) {
       </ul>
     </div>
   );
+}
+export async function sendDpConfirm(chatId) {
+  const confirmMessage = await post({
+    url: `${process.env.NEXT_PUBLIC_WAHA_API_URL}/api/sendText`,
+    contentType: 'application/json',
+    body: {
+      chatId,
+      text: 'Pembayaran DP Berhasil, terimakasih.',
+      session: 'default',
+    },
+  });
+  // console.log(confirmMessage);
+  if (confirmMessage.status == 201) alert('konfirmasi pembayaran terkirim');
 }

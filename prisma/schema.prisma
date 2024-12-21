@@ -23,6 +23,8 @@ model Booking {
   location     String?
   properties   String?
   receipt_path String?
+  price        String?
+  down_payment        String?
   status       String   @default("proceed")
   created_at   DateTime @default(now())
   updated_at   DateTime @updatedAt
@@ -34,7 +36,7 @@ model Review {
   id             String   @id @default(uuid())
   comment        String
   link_status    String   @default("active")
-  publish_status String   @default("publish")
+  publish_status String   @default("unpublish")
   rating         Int      @default(0)
   created_at     DateTime @default(now())
 

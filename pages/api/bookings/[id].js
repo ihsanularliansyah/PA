@@ -28,6 +28,8 @@ export default async function handler(req, res) {
       detail,
       status,
       _method,
+      down_payment,
+      price,
     } = req.body;
     if (_method != 'PUT') {
       res.status(405).json({ message: 'Method Not Allowed' });
@@ -44,6 +46,8 @@ export default async function handler(req, res) {
           style,
           detail,
           status,
+          down_payment,
+          price,
         },
       });
       // await prisma.token.update({
